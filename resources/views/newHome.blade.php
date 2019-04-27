@@ -1,7 +1,6 @@
 @extends('layouts.main')
 @section('content')
     <!-- /Header -->
-
     <!-- Content -->
     <section class="content fullpage transition">
 
@@ -22,13 +21,9 @@
             </div>
             <div class="cover-titles">
                 <div class="align-left">
-                    <p>beautiful</p>
-                    <h1 class="title">category</h1>
-                    <p>All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary</p>
-                    <a href="gallery-2col.html" class="btn">
-                        <span>Take a look</span>
-                        <i class="fa fa-arrow-right"></i>
-                    </a>
+                    <p>Автошкола</p>
+                    <h1 class="title">AutoSchool</h1>
+                    <h2>Всегда на пути развития!</h2>
                 </div>
             </div>
         </section>
@@ -51,13 +46,9 @@
             </div>
             <div class="cover-titles">
                 <div class="align-left">
-                    <p>amazing</p>
-                    <h1 class="title">category</h1>
-                    <p>All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary</p>
-                    <a href="gallery-3col.html" class="btn">
-                        <span>Take a look</span>
-                        <i class="fa fa-arrow-right"></i>
-                    </a>
+                    <p>Професионализм</p>
+                    <h1 class="title">Качество</h1>
+                    <p>Мы отвественно подходим к обучению наших учеников и благодаря множествам этапов подготовки процент сдачи близится к 100%</p>
                 </div>
             </div>
         </section>
@@ -80,13 +71,9 @@
             </div>
             <div class="cover-titles">
                 <div class="align-left">
-                    <p>awesome</p>
-                    <h1 class="title">category</h1>
-                    <p>All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary</p>
-                    <a href="gallery-4col.html" class="btn">
-                        <span>Take a look</span>
-                        <i class="fa fa-arrow-right"></i>
-                    </a>
+                    <p>новый автопарк</p>
+                    <h1 class="title">современность</h1>
+                    <p>У нас новый автопарк состоящий из хороших и надёжных автомобилей, на которых будет удобно учиться нашим ученикам</p>
                 </div>
             </div>
         </section>
@@ -109,12 +96,9 @@
             </div>
             <div class="cover-titles">
                 <div class="align-left">
-                    <p>best</p>
-                    <h1 class="title">category</h1>
-                    <p>All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary</p>
-                    <a href="gallery-2col.html" class="btn">
-                        <span>Take a look</span>
-                        <i class="fa fa-arrow-right"></i>
+                    <p>Личный кабинет</p>
+                    <h1 class="title">удобство</h1>
+                    <p>Для наших клиентов разработанн удобный личный кабинет, в котором вы можете посмотреть всю свою информацию</p>
                     </a>
                 </div>
             </div>
@@ -128,5 +112,11 @@
     <footer id="footer" class="fixed white">
         <p>© AutoSchool @php echo date('Y') @endphp. Все права защищены.</p>
     </footer>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#header').addClass('fixed');
+            $('.menu-main').addClass('menu-active');
+        });
+    </script>
     <!-- /Footer -->
     @endsection

@@ -64,20 +64,48 @@
                 <a href="{{route('news')}}">Новости</a>
             </li>
             <li class="mobile-menu-item">
-                <a href="#">Галлерея</a>
+                <a href="{{route('gallery')}}">Галерея</a>
             </li>
             <li class="mobile-menu-item">
-                <a href="about.html">О нас</a>
+                <a href="{{route('about')}}">О нас</a>
             </li>
             <li class="mobile-menu-item">
-                <a href="contact.html">Контакты</a>
+                <a href="{{route('contact')}}">Контакты</a>
             </li>
+            @guest
+                <li class="mobile-menu-item">
+                    <a class="nav-link" style="font-size: 15px" href="{{ route('login') }}">{{ __('Логин') }}</a>
+                </li>
+                @if (Route::has('register'))
+                    <li class="mobile-menu-item">
+                        <a style="font-size: 15px" class="nav-link" href="{{ route('register') }}">{{ __('Регистрация') }}</a>
+                    </li>
+                @endif
+            @else
+                <li class="mobile-menu-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ Auth::user()->name }} <span class="caret"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                            {{ __('Выйти') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
+            @endguest
         </ul>
     </div>
     <!-- /Mobile Menu -->
 
     <!-- Header -->
-    <header id="header" class="transition header fixed">
+    <header id="header" class="transition header">
         @yield('paralax')
         <div class="main-menu">
             <div id="logo">
@@ -89,23 +117,54 @@
             <nav id="menu" class="col-md-10 col-sm-10">
                 <ul class="hidden-xs">
                     <li>
-                        <a class="menu-active" href="{{route('mainPage')}}">Главная</a>
+                        <a class="menu-main" href="{{route('mainPage')}}">Главная</a>
                     </li>
                     <li>
-                        <a href="{{route('news')}}">Новости</a>
+                        <a class="menu-news" href="{{route('news')}}">Новости</a>
                     </li>
                     <li>
-                        <a href="#">Галлерея</a>
+                        <a class="menu-gallery" href="{{route('gallery')}}">Галерея</a>
                     </li>
                     <li>
-                        <a href="about.html">О нас</a>
+                        <a class="menu-about" href="{{route('about')}}">О нас</a>
                     </li>
                     <li>
-                        <a href="contact.html">Контакты</a>
+                        <a class="menu-contacts" href="{{route('contact')}}">Контакты</a>
                     </li>
+                    <li>
+                       <p style="font-size: 20px;">|</p>
+                    </li>
+                    <!-- Authentication Links -->
+                    @guest
+                        <li class="nav-item">
+                            <a class="nav-link" style="font-size: 15px" href="{{ route('login') }}">{{ __('Логин') }}</a>
+                        </li>
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" style="font-size: 15px" href="{{ route('register') }}">{{ __('Регистрация') }}</a>
+                            </li>
+                        @endif
+                    @else
+                        <li class="nav-item">
+                            <a style="font-size: 16px" class="nav-link" href="{{route('home')}}">
+                                {{ Auth::user()->name }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color: #ef4138; font-size: 16px;" class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                {{ __('Выйти') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                    @endguest
                 </ul>
                 <div class="mobile-menu col-xs-2 pull-right visible-xs">
                     <i class="fa fa-bars fa-2x"></i>
+
                 </div>
             </nav>
             <!-- /Menu -->
@@ -116,9 +175,7 @@
     @yield('content')
 </main>
 <!-- /Container -->
-
 <!-- JS -->
-
 <!-- jquery-1.11.3.min js -->
 <script type="text/javascript" src="{{asset('js/jquery-1.11.3.min.js')}}"></script>
 
