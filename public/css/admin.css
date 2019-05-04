@@ -1,0 +1,37 @@
+.schedule-day {
+    margin-bottom: 20px; border-radius: 10px;
+    font-size: 20px;
+    color: white;
+}
+
+.theoryColor {
+    background-color: #ffa82f;
+}
+
+.examColor {
+    background-color: #6e38ff;
+}
+
+.eventSchoolColor {
+    background-color: #70d21d;
+}
+
+.schedule-day-leftside {
+    min-height: 100%; padding: 10px; border-right: solid white 1px;
+    font-size: inherit;
+    color: inherit;
+}
+.schedule-day-body {
+    padding: 15px;
+    font-size: inherit;
+    color: inherit;
+}
+.cardDay {
+    margin-bottom: 20px;
+    box-shadow: silver 5px 5px 3px;
+}
+label {
+    font-weight: bold;
+    font-size: 16px;
+    margin: 2px;
+}

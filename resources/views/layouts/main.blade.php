@@ -186,6 +186,9 @@
 <script type="text/javascript" src="{{asset('js/website-smooth-scroll.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/photoswipe.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/photoswipe-ui-default.min.js')}}"></script>
+<script>
+    window.csrf = "{{csrf_token()}}"
+</script>
 <!-- Main js -->
 <script src="{{asset('js/main.js')}}"></script>
 </body>

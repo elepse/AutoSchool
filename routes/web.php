@@ -1,5 +1,7 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,8 +17,8 @@ Route::get('/', function () {
     return view('newHome');
 })->name('mainPage');
 //новости
-Route::get('/news', function (){
-   return view('news');
+Route::get('/news', function () {
+    return view('news');
 })->name('news');
 //галлерия
 Route::get('/gallery', function () {
@@ -31,11 +33,14 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
-Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function (){
-   Route::get('dashboard', function () {
-       return view('admin/admin');
-   })->name('adminDashBoard');
+Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+    Route::get('dashboard', function () {
+        return view('admin/schedule');
+    })->name('adminSchedule');
+    Route::post('saveEvent', 'SupportController@addEvent')->name('addEvent');
 });
+
+Route::get('searchEvent', 'SupportController@searchEvent')->name('searchEvent');
 
 Auth::routes();
 
