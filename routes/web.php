@@ -33,14 +33,19 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
-Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+//роуты личного кабинета
+Route::group(['middleware' => 'auth', 'prefix' => 'lk'], function () {
     Route::get('dashboard', function () {
         return view('admin/schedule');
     })->name('adminSchedule');
-    Route::post('saveEvent', 'SupportController@addEvent')->name('addEvent');
+//Практика
+    Route::get('practice','LkController@practice')->name('practice');
+    //Добавление ивента
+    Route::post('saveEvent', 'LkController@addEvent')->name('addEvent');
+    //Поиск ивентов
+    Route::get('searchEvent', 'LkController@searchEvent')->name('searchEvent');
 });
 
-Route::get('searchEvent', 'SupportController@searchEvent')->name('searchEvent');
 
 Auth::routes();
 

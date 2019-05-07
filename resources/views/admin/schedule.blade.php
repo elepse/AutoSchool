@@ -14,7 +14,7 @@
                 </select>
             </div>
             <div class="col-lg-6 col-xs-12">
-                <label for="commentPlan">Комментарий</label>
+                <label for="commentPlan">Содержание</label>
                 <input class="form-control" id="commentPlan" type="text">
             </div>
         </div>

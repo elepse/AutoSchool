@@ -16,7 +16,7 @@ commentPlan.change(function () {
 function searchEvent() {
     cardContainer.hide('blind');
     $.ajax({
-        url: "/searchEvent",
+        url: "/lk/searchEvent",
         data: {
             type: typePlan.val(),
             comment: commentPlan.val()
@@ -80,7 +80,7 @@ function addEvent() {
         date =  dateTime.getFullYear() + '.' + parseInt(dateTime.getMonth() + 1 ) + '.' + dateTime.getDate();
 
     $.ajax({
-    	url: "/admin/saveEvent",
+    	url: "/lk/saveEvent",
         headers: {
     	    'X-CSRF-TOKEN' : window.csrf
         },
@@ -107,3 +107,87 @@ function addEvent() {
     	}
     });
 }
+let instructor = $('#instructor'),
+    classDate = $('#classDate'),
+    classType = $('#typeClass'),
+    classTime = $('#classTime');
+
+function openPracticeModal() {
+    $.ajax({
+    	url: "/lk/practice",
+    	data: {
+
+        },
+    	dataType: 'json',
+    	type: "GET"
+    }).done(function (response) {
+    	if (response !== undefined) {
+    		if (response.status === true) {
+                $('#practiceModal').modal('show');
+                response.instructors.forEach(function (i) {
+                    instructor.append($('<option value="'+ i.id_instructor +'"></option>').append(i.name_instructor));
+                });
+    		} else if (response.status ===false || response.status === 'error') {
+    			alert(response.error);
+    		} else {
+    			alert('Ошибка запроса. Обратитесь к администратору.');
+    		}
+    	} else {
+    		alert('Ошибка запроса. Обратитесь к администратору.');
+    	}
+    });
+}
+
+function updateTime() {
+    $.ajax({
+    	url: "lk/updateTime",
+    	data: {
+            instructor: instructor.val(),
+            classDate : classDate.val()
+        },
+    	dataType: 'json',
+    	type: "GET"
+    }).done(function (response) {
+    	if (response !== undefined) {
+    		if (response.status === true) {
+
+    		} else if (response.status ===false || response.status === 'error') {
+    			alert(response.error);
+    		} else {
+    			alert('Ошибка запроса. Обратитесь к администратору.');
+    		}
+    	} else {
+    		alert('Ошибка запроса. Обратитесь к администратору.');
+    	}
+    });
+}
+
+
+ function savePractiveRequest() {
+     $.ajax({
+     	url: "/lk/practiceRequest",
+         headers: {
+     	   'X-CSRF-TOKEN' : window.csrf
+         },
+     	data: {
+     	    instructor: instructor.val(),
+            classType: classType.val(),
+            classDate: classDate.val(),
+            classTime : classTime.val()
+        },
+     	dataType: 'json',
+     	type: "POST"
+     }).done(function (response) {
+     	if (response !== undefined) {
+     		if (response.status === true) {
+
+     		} else if (response.status ===false || response.status === 'error') {
+     			alert(response.error);
+     		} else {
+     			alert('Ошибка запроса. Обратитесь к администратору.');
+     		}
+     	} else {
+     		alert('Ошибка запроса. Обратитесь к администратору.');
+     	}
+     });
+ }

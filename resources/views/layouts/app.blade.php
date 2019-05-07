@@ -17,7 +17,8 @@
     <link rel="stylesheet" href="{{asset('css/admin.css')}}">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
@@ -36,16 +37,16 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
-                @if(\Illuminate\Support\Facades\Auth::user())
-                    @if(\Illuminate\Support\Facades\Auth::user()->role == 1)
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a href="{{route('adminSchedule')}}" class="nav-link">Рассписание</a>
-                            </li>
-                        </ul>
-                    @endif
-                @endif
-            <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a href="{{route('adminSchedule')}}" class="nav-link">Рассписание</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="javascript:void 0" onclick="openPracticeModal()" class="nav-link">Запись на
+                            практику</a>
+                    </li>
+                </ul>
+                <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
                     @guest
@@ -87,9 +88,60 @@
         @yield('content')
     </main>
 </div>
+<!-- Practice modal -->
+<div class="modal fade bd-example-modal-lg" id="practiceModal" tabindex="-1" role="dialog"
+     aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title h4" id="exampleModalLabel">Запись на практику</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="col-lg-12">
+                    <label for="instructor">Выберите инстурктора</label>
+                    <select id="instructor" class="form-control formPractice">
+                        <option value="">Не выбран</option>
+                    </select>
+                </div>
+                <br>
+                <div class="col-lg-12 row">
+                    <div class="col-lg-6">
+                        <label for="typeClass">Тип коробки передач:</label>
+                        <select id="typeClass" class="form-control formPractice">
+                            <option value="">Не выбрано!</option>
+                            <option value="1">Механическая</option>
+                            <option value="2">Автоматическая</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="classDate">Дата:</label>
+                        <input id="classDate" type="date" class="form-control formPractice">
+                    </div>
+                </div>
+                <div class="col-lg-6 offset-lg-3 col-xs-12" id="timeContainer" style="display: none;">
+                    <hr>
+                    <label for="classTime">Время</label>
+                    <input class="form-control" id="classTime" type="time">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" onclick="">Записаться</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="{{asset('js/admin.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 <script> window.csrf = "{{csrf_token()}}"</script>
 </body>
 </html>

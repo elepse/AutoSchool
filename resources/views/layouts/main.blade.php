@@ -175,6 +175,7 @@
     @yield('content')
 </main>
 <!-- /Container -->
+
 <!-- JS -->
 <!-- jquery-1.11.3.min js -->
 <script type="text/javascript" src="{{asset('js/jquery-1.11.3.min.js')}}"></script>
