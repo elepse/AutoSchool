@@ -58,7 +58,7 @@ function searchEvent() {
                         card.append(cardBody);
                         cardContainer.append(card);
                     });
-					cardContainer.show('blind');
+                    cardContainer.show('blind');
                 });
             } else if (response.status === false || response.status === 'error') {
                 alert(response.error);
@@ -76,37 +76,38 @@ function addEvent() {
         type = $('#typeEvent'),
         comment = $('#commentEvent');
 
-    let time =  dateTime.getHours() + ':' + dateTime.getMinutes(),
-        date =  dateTime.getFullYear() + '.' + parseInt(dateTime.getMonth() + 1 ) + '.' + dateTime.getDate();
+    let time = dateTime.getHours() + ':' + dateTime.getMinutes(),
+        date = dateTime.getFullYear() + '.' + parseInt(dateTime.getMonth() + 1) + '.' + dateTime.getDate();
 
     $.ajax({
-    	url: "/lk/saveEvent",
+        url: "/lk/saveEvent",
         headers: {
-    	    'X-CSRF-TOKEN' : window.csrf
+            'X-CSRF-TOKEN': window.csrf
         },
-    	data: {
-            time : time,
-            date : date,
-            type : type.val(),
-            comment : comment.val()
+        data: {
+            time: time,
+            date: date,
+            type: type.val(),
+            comment: comment.val()
         },
-    	dataType: 'json',
-    	type: "post"
+        dataType: 'json',
+        type: "post"
     }).done(function (response) {
-    	if (response !== undefined) {
-    		if (response.status === true) {
+        if (response !== undefined) {
+            if (response.status === true) {
                 $('#addEventModal').modal('hide');
                 searchEvent();
-    		} else if (response.status ===false || response.status === 'error') {
-    			alert(response.error);
-    		} else {
-    			alert('Ошибка запроса. Обратитесь к администратору.');
-    		}
-    	} else {
-    		alert('Ошибка запроса. Обратитесь к администратору.');
-    	}
+            } else if (response.status === false || response.status === 'error') {
+                alert(response.error);
+            } else {
+                alert('Ошибка запроса. Обратитесь к администратору.');
+            }
+        } else {
+            alert('Ошибка запроса. Обратитесь к администратору.');
+        }
     });
 }
+
 let instructor = $('#instructor'),
     classDate = $('#classDate'),
     classType = $('#typeClass'),
@@ -114,80 +115,125 @@ let instructor = $('#instructor'),
 
 function openPracticeModal() {
     $.ajax({
-    	url: "/lk/practice",
-    	data: {
-
-        },
-    	dataType: 'json',
-    	type: "GET"
+        url: "/lk/practice",
+        data: {},
+        dataType: 'json',
+        type: "GET"
     }).done(function (response) {
-    	if (response !== undefined) {
-    		if (response.status === true) {
+        if (response !== undefined) {
+            if (response.status === true) {
                 $('#practiceModal').modal('show');
                 response.instructors.forEach(function (i) {
-                    instructor.append($('<option value="'+ i.id_instructor +'"></option>').append(i.name_instructor));
+                    instructor.append($('<option value="' + i.id_instructor + '"></option>').append(i.name_instructor));
                 });
-    		} else if (response.status ===false || response.status === 'error') {
-    			alert(response.error);
-    		} else {
-    			alert('Ошибка запроса. Обратитесь к администратору.');
-    		}
-    	} else {
-    		alert('Ошибка запроса. Обратитесь к администратору.');
-    	}
+            } else if (response.status === false || response.status === 'error') {
+                alert(response.error);
+            } else {
+                alert('Ошибка запроса. Обратитесь к администратору.');
+            }
+        } else {
+            alert('Ошибка запроса. Обратитесь к администратору.');
+        }
     });
 }
+
+let practiceForm = $('.formPractice');
+
+practiceForm.change(function () {
+    if (classDate.val() !== "" && classType.val() != null && instructor.val()) {
+        updateTime();
+    }
+});
 
 function updateTime() {
+    let defaultTimes = [
+            '12:00', '14:00', '16:00', '18:00'
+        ],
+        timeContainer = $('#timeContainer'),
+        times;
+    timeContainer.hide('blind');
+    classTime.empty();
     $.ajax({
-    	url: "lk/updateTime",
-    	data: {
+        url: "/lk/updateTime",
+        data: {
             instructor: instructor.val(),
-            classDate : classDate.val()
+            classDate: classDate.val()
         },
-    	dataType: 'json',
-    	type: "GET"
+        dataType: 'json',
+        type: "GET"
     }).done(function (response) {
-    	if (response !== undefined) {
-    		if (response.status === true) {
+        if (response !== undefined) {
+            if (response.status === true) {
+                //TODO: Тут есть баг со временем
+                response.busyDates.forEach(function (time) {
+                    let busyTimes = $.map(time, function (value, index) {
+                        return [value.substr(0, 5)];
+                    });
+                    times = defaultTimes.map(function (time) {
+                        console.log(time);
+                        if (busyTimes.indexOf(time)) {
+                            return time;
+                        }
+                    });
+                });
+                let trueTime;
+                if (times == null) {
+                    trueTime = defaultTimes;
+                } else {
+                    if (times.length === 0) alert('нет доступнного времени');
+                    trueTime = times;
+                }
 
-    		} else if (response.status ===false || response.status === 'error') {
-    			alert(response.error);
-    		} else {
-    			alert('Ошибка запроса. Обратитесь к администратору.');
-    		}
-    	} else {
-    		alert('Ошибка запроса. Обратитесь к администратору.');
-    	}
+                if (!!trueTime.reduce(function (a, b) {
+                    return (a === b) ? a : NaN;
+                })) {
+                    classTime.append($('<option value="">Нет свободного времени!</option>'))
+                } else {
+                    trueTime.forEach(function (time) {
+                        if (time !== undefined) {
+                            classTime.append($('<option value="' + time + '"></option>').append(time))
+                        }
+                    });
+                }
+
+                timeContainer.show('blind');
+            } else if (response.status === false || response.status === 'error') {
+                alert(response.error);
+            } else {
+                alert('Ошибка запроса. Обратитесь к администратору.');
+            }
+        } else {
+            alert('Ошибка запроса. Обратитесь к администратору.');
+        }
     });
 }
 
 
- function savePractiveRequest() {
-     $.ajax({
-     	url: "/lk/practiceRequest",
-         headers: {
-     	   'X-CSRF-TOKEN' : window.csrf
-         },
-     	data: {
-     	    instructor: instructor.val(),
-            classType: classType.val(),
-            classDate: classDate.val(),
-            classTime : classTime.val()
+function savePractiveRequest() {
+    $.ajax({
+        url: "/lk/practiceRequest",
+        headers: {
+            'X-CSRF-TOKEN': window.csrf
         },
-     	dataType: 'json',
-     	type: "POST"
-     }).done(function (response) {
-     	if (response !== undefined) {
-     		if (response.status === true) {
-
-     		} else if (response.status ===false || response.status === 'error') {
-     			alert(response.error);
-     		} else {
-     			alert('Ошибка запроса. Обратитесь к администратору.');
-     		}
-     	} else {
-     		alert('Ошибка запроса. Обратитесь к администратору.');
-     	}
-     });
- }
+        data: {
+            instructor: instructor.val(),
+            type: classType.val(),
+            date: classDate.val(),
+            time: classTime.val()
+        },
+        dataType: 'json',
+        type: "POST"
+    }).done(function (response) {
+        if (response !== undefined) {
+            if (response.status === true) {
+                $('#practiceModal').modal('hide');
+            } else if (response.status === false || response.status === 'error') {
+                alert(response.error);
+            } else {
+                alert('Ошибка запроса. Обратитесь к администратору.');
+            }
+        } else {
+            alert('Ошибка запроса. Обратитесь к администратору.');
+        }
+    });
+}

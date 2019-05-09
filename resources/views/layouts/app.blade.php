@@ -110,7 +110,7 @@
                 <div class="col-lg-12 row">
                     <div class="col-lg-6">
                         <label for="typeClass">Тип коробки передач:</label>
-                        <select id="typeClass" class="form-control formPractice">
+                        <select id="typeClass" class="form-control">
                             <option value="">Не выбрано!</option>
                             <option value="1">Механическая</option>
                             <option value="2">Автоматическая</option>
@@ -121,10 +121,19 @@
                         <input id="classDate" type="date" class="form-control formPractice">
                     </div>
                 </div>
-                <div class="col-lg-6 offset-lg-3 col-xs-12" id="timeContainer" style="display: none;">
+                <hr>
+                <div class="col-lg-12" id="timeContainer" style="display: none;">
                     <hr>
-                    <label for="classTime">Время</label>
-                    <input class="form-control" id="classTime" type="time">
+                    <div class="col-lg-6 offset-lg-3 col-xs-12">
+                        <label for="classTime">Свободное время:</label>
+                        <select id="classTime" class="form-control">
+                            <option value="">Не выбрано</option>
+                            <option value="12:00">12:00 - 14:00</option>
+                            <option value="14:00">14:00 - 16:00</option>
+                            <option value="16:00">16:00 - 18:00</option>
+                            <option value="18:00">18:00 - 20:00</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

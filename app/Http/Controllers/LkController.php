@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\ClassPracitce;
 use App\Instructor;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Plan;
 
@@ -51,8 +53,33 @@ class LkController extends Controller
 
     public function practice()
     {
-        $instructors =  Instructor::all(['name_instructor', 'id_instructor']);
-        return(['status' => true, 'instructors' => $instructors]);
+        $instructors = Instructor::all(['name_instructor', 'id_instructor']);
+        return (['status' => true, 'instructors' => $instructors]);
     }
 
+    public function practiceRequest(Request $request)
+    {
+        $time = $request->get('time', null);
+        $date = $request->get('date', null);
+        $instructor = $request->get('instructor', null);
+        $type = $request->get('type', null);
+        $status = null;
+        $error = null;
+        if (!is_null($time) && !is_null($date) && !is_null($instructor) && !is_null($type)) {
+            $query = (new ClassPracitce())->fill([
+                'time' => $time,
+                'date' => $date,
+                'id_user' => Auth::user()->id,
+                'id_instructor' => $instructor
+            ])->save();
+            $status = $query;
+            if (!$status) {
+                $error = 'Обратитесь в техническую поддержку';
+            }
+        }else{
+            $error = 'Заполните все поля';
+            $status = false;
+        }
+        return(['status' => $status, 'error' => $error]);
+    }
 }

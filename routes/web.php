@@ -38,12 +38,16 @@ Route::group(['middleware' => 'auth', 'prefix' => 'lk'], function () {
     Route::get('dashboard', function () {
         return view('admin/schedule');
     })->name('adminSchedule');
-//Практика
+    //Список преподавателей
     Route::get('practice','LkController@practice')->name('practice');
     //Добавление ивента
     Route::post('saveEvent', 'LkController@addEvent')->name('addEvent');
     //Поиск ивентов
     Route::get('searchEvent', 'LkController@searchEvent')->name('searchEvent');
+    //Проверка доступного времени
+    Route::get('updateTime', 'SupportController@updateTime')->name('updateTime');
+    //Подача запроса на практику
+    Route::post('practiceRequest','LkController@practiceRequest')->name('practiceRequest');
 });
 
 
