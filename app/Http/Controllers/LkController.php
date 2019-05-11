@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\ClassPracitce;
 use App\Instructor;
+use App\Role;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Plan;
@@ -76,10 +78,28 @@ class LkController extends Controller
             if (!$status) {
                 $error = 'Обратитесь в техническую поддержку';
             }
-        }else{
+        } else {
             $error = 'Заполните все поля';
             $status = false;
         }
-        return(['status' => $status, 'error' => $error]);
+        return (['status' => $status, 'error' => $error]);
+    }
+
+    public function usersInfo()
+    {
+        if (Auth::user()->role === 1) {
+            $roles = Role::all();
+            return view('admin/usersInfo', ['roles' => $roles]);
+        } else {
+            return redirect('adminSchedule');
+        }
+    }
+
+    public function saveEditUser(Request $request){
+        $id = $request->get('id', null);
+        $role = $request->get('newRole', null);
+
+        User::find((int)$id)->update(['role' => $role]);
+        return(['status' => true]);
     }
 }

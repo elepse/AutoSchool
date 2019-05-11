@@ -114,6 +114,7 @@ let instructor = $('#instructor'),
     classTime = $('#classTime');
 
 function openPracticeModal() {
+    $('#timeContainer').hide();
     $.ajax({
         url: "/lk/practice",
         data: {},
@@ -147,7 +148,7 @@ practiceForm.change(function () {
 
 function updateTime() {
     let defaultTimes = [
-            '12:00', '14:00', '16:00', '18:00'
+            '12:00:00', '14:00:00', '16:00:00', '18:00:00'
         ],
         timeContainer = $('#timeContainer'),
         times;
@@ -164,17 +165,14 @@ function updateTime() {
     }).done(function (response) {
         if (response !== undefined) {
             if (response.status === true) {
-                //TODO: Тут есть баг со временем
-                response.busyDates.forEach(function (time) {
-                    let busyTimes = $.map(time, function (value, index) {
-                        return [value.substr(0, 5)];
-                    });
-                    times = defaultTimes.map(function (time) {
-                        console.log(time);
-                        if (busyTimes.indexOf(time)) {
-                            return time;
-                        }
-                    });
+                let busyTimes = Object.values(response.busyDates).map(v => Object.values(v));
+                for (let i = 0; i < busyTimes.length; i++) {
+                    busyTimes.splice(i, 1, busyTimes[i][0]);
+                }
+                times = defaultTimes.map(function (time) {
+                    if (busyTimes.indexOf(time) === -1) {
+                        return time;
+                    } else return -1;
                 });
                 let trueTime;
                 if (times == null) {
@@ -190,12 +188,11 @@ function updateTime() {
                     classTime.append($('<option value="">Нет свободного времени!</option>'))
                 } else {
                     trueTime.forEach(function (time) {
-                        if (time !== undefined) {
-                            classTime.append($('<option value="' + time + '"></option>').append(time))
+                        if (time !== -1) {
+                            classTime.append($('<option value="' + time + '"></option>').append(time.substr(0, 5)))
                         }
                     });
                 }
-
                 timeContainer.show('blind');
             } else if (response.status === false || response.status === 'error') {
                 alert(response.error);
@@ -208,8 +205,7 @@ function updateTime() {
     });
 }
 
-
-function savePractiveRequest() {
+function savePracticeRequest() {
     $.ajax({
         url: "/lk/practiceRequest",
         headers: {
@@ -227,6 +223,7 @@ function savePractiveRequest() {
         if (response !== undefined) {
             if (response.status === true) {
                 $('#practiceModal').modal('hide');
+                $('#classForm')[0].reset();
             } else if (response.status === false || response.status === 'error') {
                 alert(response.error);
             } else {
@@ -235,5 +232,88 @@ function savePractiveRequest() {
         } else {
             alert('Ошибка запроса. Обратитесь к администратору.');
         }
+    });
+}
+
+let userSearch = $('.userSearch');
+
+userSearch.on('change', function () {
+    tableUserUpdate();
+});
+$('#tableUsers').ready(function () {
+    tableUserUpdate();
+});
+
+function tableUserUpdate() {
+    let email = $('#userEmailSearch'),
+        type = $('#userTypeSearch'),
+        fio = $('#userFioSearch');
+    $.ajax({
+    	url: "/lk/tableUser",
+    	data: {
+            email : email.val(),
+            type : type.val(),
+            fio : fio.val()
+        },
+    	dataType: 'json',
+    	type: "GET"
+    }).done(function (response) {
+    	if (response !== undefined) {
+    		if (response.status === true) {
+                let usersTable = $('#tableUsers');
+                usersTable.empty();
+                response.users.forEach(function (user) {
+                   let row = $('<tr></tr>');
+                   row.append($('<td></td>').append(user.id))
+                       .append($('<td></td>').append(user.name))
+                       .append($('<td></td>').append(user.phone))
+                       .append($('<td></td>').append(user.email))
+                       .append($('<td></td>').append(user.name_role))
+                       .append($('<td class="text-center"></td>').append($('<button class="btn btn-info" onclick="openUserEditModal('+ user.id +')">Изменить тип</button>')));
+                    usersTable.append(row);
+                })
+    		} else if (response.status ===false || response.status === 'error') {
+    			alert(response.error);
+    		} else {
+    			alert('Ошибка запроса. Обратитесь к администратору.');
+    		}
+    	} else {
+    		alert('Ошибка запроса. Обратитесь к администратору.');
+    	}
+    });
+}
+
+function openUserEditModal(id) {
+    let idEditUser = $('#idEditUser');
+    $('#formEditUser')[0].reset();
+    idEditUser.val(id);
+    $('#userEditModal').modal('show');
+}
+
+function saveEditUser() {
+    $.ajax({
+    	url: "/lk/saveEditUser",
+        headers: {
+    	  'X-CSRF-TOKEN' : window.csrf
+        },
+    	data: {
+    	    id : $('#idEditUser').val(),
+            newRole : $('#roleEditUser').val()
+        },
+    	dataType: 'json',
+    	type: "post"
+    }).done(function (response) {
+    	if (response !== undefined) {
+    		if (response.status === true) {
+                $('#userEditModal').modal('hide');
+                tableUserUpdate();
+    		} else if (response.status ===false || response.status === 'error') {
+    			alert(response.error);
+    		} else {
+    			alert('Ошибка запроса. Обратитесь к администратору.');
+    		}
+    	} else {
+    		alert('Ошибка запроса. Обратитесь к администратору.');
+    	}
     });
 }

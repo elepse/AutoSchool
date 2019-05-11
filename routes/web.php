@@ -47,9 +47,14 @@ Route::group(['middleware' => 'auth', 'prefix' => 'lk'], function () {
     //Проверка доступного времени
     Route::get('updateTime', 'SupportController@updateTime')->name('updateTime');
     //Подача запроса на практику
-    Route::post('practiceRequest','LkController@practiceRequest')->name('practiceRequest');
-});
+    Route::post('practiceRequest','LkController@ practiceRequest')->name('practiceRequest');
+    //Редактор пользователей
+    Route::get('usersInfo', 'LkController@usersInfo')->name('usersInfo');
+    //Обновлние таблицы пользователей
+    Route::get('tableUser','SupportController@tableUser')->name('tableUser');
 
+    Route::post('saveEditUser', 'LkController@saveEditUser')->name('saveEditUser');
+});
 
 Auth::routes();
 
