@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Plan;
 use App\Instructor;
 use Illuminate\Support\Facades\Auth;
+use function PHPSTORM_META\type;
 
 
 class SupportController extends Controller
@@ -45,5 +46,35 @@ class SupportController extends Controller
         } else {
             return redirect('adminSchedule', '403');
         }
+    }
+
+    public function searchRequests(Request $request)
+    {
+     $mail = $request->get('mail', null);
+     $typeClass = $request->get('typeClass', null);
+     $instructor = $request->get('instructor', null);
+     $client = $request->get('client', null);
+     $typeKP = $request->get('typeKP', null);
+
+     $query = ClassPracitce::query()->join('users','users.id', '=','clases_Practice.id_user')
+     ->join('instructors','instructors.id_instructor','=', 'clases_Practice.id_instructor');
+
+     if (!is_null($mail)){
+         $query = $query->where('email','like',"%$mail%");
+     }
+        if (!is_null($typeClass)){
+            $query = $query->where('type_class','=',"$typeClass");
+        }
+        if (!is_null($instructor)){
+            $query = $query->where('clases_Practice.id_instructor','=',"$instructor");
+        }
+        if (!is_null($client)){
+            $query = $query->where('name','like',"%$client%");
+        }
+        if (!is_null($typeKP)){
+            $query = $query->where('type_KP', '=', "$typeKP");
+        }
+        $query = $query->orderBy('clases_Practice.status','desc');
+        return(['status'=>true, 'requests' => $query->get()]);
     }
 }

@@ -51,6 +51,11 @@
                                 <a href="{{route('usersInfo')}}" class="nav-link">Пользователи</a>
                             </li>
                         @endif
+                        @if(Auth::user()->role === 1 || Auth::user()->role === 2)
+                            <li class="nav-item">
+                                <a href="{{route('requests')}}" class="nav-link">Запросы на практику</a>
+                            </li>
+                        @endif
                         @endif
                     </ul>
                     <!-- Right Side Of Navbar -->
@@ -127,6 +132,14 @@
                         <div class="col-lg-6">
                             <label for="classDate">Дата:</label>
                             <input id="classDate" type="date" class="form-control formPractice">
+                        </div>
+                        <div class="col-lg-6 offset-lg-3">
+                            <label for="practiceType">Тип практики</label>
+                            <select id="practiceType" class="form-control">
+                                <option value="">Не выбрано</option>
+                                <option value="1">Автодром</option>
+                                <option value="2">Город</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-lg-12" id="timeContainer" style="display: none;">

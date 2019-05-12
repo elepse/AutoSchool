@@ -6,6 +6,7 @@ use App\ClassPracitce;
 use App\Instructor;
 use App\Role;
 use App\User;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Plan;
@@ -64,13 +65,16 @@ class LkController extends Controller
         $time = $request->get('time', null);
         $date = $request->get('date', null);
         $instructor = $request->get('instructor', null);
-        $type = $request->get('type', null);
+        $type = $request->get('typeKP', null);
+        $typeClass = $request->get('typePractice', null);
         $status = null;
         $error = null;
         if (!is_null($time) && !is_null($date) && !is_null($instructor) && !is_null($type)) {
             $query = (new ClassPracitce())->fill([
                 'time' => $time,
                 'date' => $date,
+                'type_KP' => $type,
+                'type_class' => $typeClass,
                 'id_user' => Auth::user()->id,
                 'id_instructor' => $instructor
             ])->save();
@@ -101,5 +105,10 @@ class LkController extends Controller
 
         User::find((int)$id)->update(['role' => $role]);
         return(['status' => true]);
+    }
+
+    public function Requests(){
+        $query = Instructor::all(['id_instructor','name_instructor']);
+        return view('admin/requests',['instructors' => $query]);
     }
 }

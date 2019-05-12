@@ -124,6 +124,7 @@ function openPracticeModal() {
         if (response !== undefined) {
             if (response.status === true) {
                 $('#practiceModal').modal('show');
+                $(instructor).empty();
                 response.instructors.forEach(function (i) {
                     instructor.append($('<option value="' + i.id_instructor + '"></option>').append(i.name_instructor));
                 });
@@ -213,9 +214,10 @@ function savePracticeRequest() {
         },
         data: {
             instructor: instructor.val(),
-            type: classType.val(),
+            typeKP: classType.val(),
             date: classDate.val(),
-            time: classTime.val()
+            time: classTime.val(),
+            typePractice : $('#practiceType').val()
         },
         dataType: 'json',
         type: "POST"
@@ -307,6 +309,71 @@ function saveEditUser() {
     		if (response.status === true) {
                 $('#userEditModal').modal('hide');
                 tableUserUpdate();
+    		} else if (response.status ===false || response.status === 'error') {
+    			alert(response.error);
+    		} else {
+    			alert('Ошибка запроса. Обратитесь к администратору.');
+    		}
+    	} else {
+    		alert('Ошибка запроса. Обратитесь к администратору.');
+    	}
+    });
+}
+
+let requestSearch = $('.requestSearch');
+let requestsTable = $('#requestsTable');
+requestSearch.change(function () {
+    searchRequests();
+});
+requestsTable.ready(function () {
+    searchRequests();
+});
+
+function searchRequests() {
+
+    requestsTable.empty();
+    $.ajax({
+    	url: "/lk/searchRequests",
+    	data: {
+            mail : $('#userRequestEmailSearch').val(),
+            typeClass : $('#typeClassRequest').val(),
+            instructor : $('#instructorRequest').val(),
+            client : $('#requestFioSearch').val(),
+            typeKP : $('#typeKP').val()
+        },
+    	dataType: 'json',
+    	type: "GET"
+    }).done(function (response) {
+    	if (response !== undefined) {
+    		if (response.status === true) {
+                response.requests.forEach(function (request) {
+                    let row = $('<tr></tr>');
+                    switch (request.type_class) {
+                        case 1:
+                            request.type_class = 'Автодром';
+                            break;
+                        case 2:
+                            request.type_class = 'Город';
+                            break;
+                    }
+                    switch (request.type_KP) {
+                        case 1:
+                            request.type_KP = 'Механическа';
+                            break;
+                        case 2:
+                            request.type_KP = 'Автоматическая';
+                            break;
+                    }
+                    row.append($('<td></td>').append(request.name));
+                    row.append($('<td></td>').append(request.email));
+                    row.append($('<td></td>').append(request.name_instructor));
+                    row.append($('<td></td>').append(request.type_class));
+                    row.append($('<td></td>').append(request.type_KP));
+                    row.append($('<td></td>').append(request.date));
+                    row.append($('<td></td>').append(request.time));
+                    row.append($('<td></td>').append());
+                    requestsTable.append(row);
+                })
     		} else if (response.status ===false || response.status === 'error') {
     			alert(response.error);
     		} else {
