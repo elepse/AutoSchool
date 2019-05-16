@@ -33,6 +33,7 @@ class LkController extends Controller
 
     public function addEvent(Request $request)
     {
+        if (\Auth::user()->role === 1){
         $date = $request->get('date', null);
         $time = $request->get('time', null);
         $type = $request->get('type', null);
@@ -52,6 +53,9 @@ class LkController extends Controller
         }
 
         return (['status' => $status, 'error' => $error]);
+        }else {
+            return abort(403);
+        }
     }
 
     public function practice()
@@ -99,16 +103,27 @@ class LkController extends Controller
         }
     }
 
-    public function saveEditUser(Request $request){
-        $id = $request->get('id', null);
-        $role = $request->get('newRole', null);
+    public function saveEditUser(Request $request)
+    {
+        if (Auth::user()->role === 1) {
+            $id = $request->get('id', null);
+            $role = $request->get('newRole', null);
 
-        User::find((int)$id)->update(['role' => $role]);
-        return(['status' => true]);
+            User::find((int)$id)->update(['role' => $role]);
+            return (['status' => true]);
+        }else{
+            return(['status' => false]);
+        }
+
     }
 
-    public function Requests(){
-        $query = Instructor::all(['id_instructor','name_instructor']);
-        return view('admin/requests',['instructors' => $query]);
+    public function Requests()
+    {
+        if (Auth::user()->role === 1 || Auth::user()->role === 2) {
+            $query = Instructor::all(['id_instructor', 'name_instructor']);
+            return view('admin/requests', ['instructors' => $query]);
+        }else {
+           return abort(403);
+        }
     }
 }

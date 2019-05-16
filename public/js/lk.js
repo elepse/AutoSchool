@@ -335,7 +335,6 @@ function searchRequests() {
     $.ajax({
     	url: "/lk/searchRequests",
     	data: {
-            mail : $('#userRequestEmailSearch').val(),
             typeClass : $('#typeClassRequest').val(),
             instructor : $('#instructorRequest').val(),
             client : $('#requestFioSearch').val(),
@@ -347,7 +346,6 @@ function searchRequests() {
     	if (response !== undefined) {
     		if (response.status === true) {
                 response.requests.forEach(function (request) {
-                    let row = $('<tr></tr>');
                     switch (request.type_class) {
                         case 1:
                             request.type_class = 'Автодром';
@@ -358,22 +356,64 @@ function searchRequests() {
                     }
                     switch (request.type_KP) {
                         case 1:
-                            request.type_KP = 'Механическа';
+                            request.type_KP = 'Механическая';
                             break;
                         case 2:
                             request.type_KP = 'Автоматическая';
                             break;
                     }
+                    let color;
+                    switch (request.status) {
+                        case 1:
+                            request.status = 'На рассмотрении  ';
+                            color = '#ffc001';
+                            break;
+                        case 2:
+                            request.status = 'Одобрено  ';
+                            color = '#afff9d';
+                            break;
+                        case 3:
+                            request.status = 'Отклонён  ';
+                            color = '#ded8d6';
+                            break;
+                    }
+                    let row = $('<tr style="background-color: '+ color +'"></tr>');
                     row.append($('<td></td>').append(request.name));
-                    row.append($('<td></td>').append(request.email));
                     row.append($('<td></td>').append(request.name_instructor));
                     row.append($('<td></td>').append(request.type_class));
                     row.append($('<td></td>').append(request.type_KP));
                     row.append($('<td></td>').append(request.date));
                     row.append($('<td></td>').append(request.time));
-                    row.append($('<td></td>').append());
+                    row.append($('<td></td>').append(request.status).append($('<i class="fas fa-check" onclick="changeStatusRequest('+ request.id_class +', 2 )" style="color: green; margin: 5px; cursor: pointer;"></i> ')).append($('<i onclick="changeStatusRequest('+ request.id_class +', 3)" style="color: red; cursor: pointer;" class="fas fa-ban"></i>')));
                     requestsTable.append(row);
                 })
+    		} else if (response.status ===false || response.status === 'error') {
+    			alert(response.error);
+    		} else {
+    			alert('Ошибка запроса. Обратитесь к администратору.');
+    		}
+    	} else {
+    		alert('Ошибка запроса. Обратитесь к администратору.');
+    	}
+    });
+}
+
+function changeStatusRequest(id, status) {
+    $.ajax({
+    	url: "/lk/changeStatusRequest",
+        headers: {
+    	    'X-CSRF-TOKEN' : window.csrf
+        },
+    	data: {
+    	    id : id,
+            status : status
+        },
+    	dataType: 'json',
+    	type: "POST"
+    }).done(function (response) {
+    	if (response !== undefined) {
+    		if (response.status === true) {
+                searchRequests();
     		} else if (response.status ===false || response.status === 'error') {
     			alert(response.error);
     		} else {

@@ -5,8 +5,12 @@
             <h3 class="text-center">Запросы на практику</h3>
             <div class="col col-lg-12 row text-center">
                 <div class="col-lg-6 col-xs-12">
-                    <label for="userRequestEmailSearch">Электронная почта</label>
-                    <input placeholder="example@mail.com" class="form-control requestSearch" id="userRequestEmailSearch">
+                    <label for="typeKP">Тип коробки передач:</label>
+                    <select id="typeKP" class="form-control requestSearch">
+                        <option value="">Не выбрано!</option>
+                        <option value="1">Механическая</option>
+                        <option value="2">Автоматическая</option>
+                    </select>
                     <br>
                 </div>
                 <div class="col-lg-6 col-xs-12">
@@ -32,29 +36,20 @@
                     <input placeholder="Фамилия Имя Отчество" class="form-control requestSearch" id="requestFioSearch">
                     <br>
                 </div>
-                <div class="col-lg-6 offset-lg-3 col-xs-12">
-                    <label for="typeKP">Тип коробки передач:</label>
-                    <select id="typeKP" class="form-control requestSearch">
-                        <option value="">Не выбрано!</option>
-                        <option value="1">Механическая</option>
-                        <option value="2">Автоматическая</option>
-                    </select>
-                </div>
             </div>
         </div>
         <hr>
         <div class="col-lg-12 col-xs-12 table-responsive">
-            <table class="table table-hover table-bordered">
+            <table style="background-color: white;" class="table table-hover table-bordered">
                 <thead>
                 <tr>
                     <th>Клиент</th>
-                    <th>почта клиента</th>
                     <th>Инструток</th>
                     <th>Тип занятия</th>
-                    <th>Тип коробки передач</th>
+                    <th>Коробка передач</th>
                     <th>Дата</th>
                     <th>Время</th>
-                    <th>Действия</th>
+                    <th>Статус</th>
                 </tr>
                 </thead>
                 <tbody id="requestsTable">

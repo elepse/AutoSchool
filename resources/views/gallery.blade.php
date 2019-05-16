@@ -22,7 +22,7 @@
             <!-- Grid Item-->
             <figure class="grid-item col-md-4 col-sm-4 col-xs-12">
                 <a href="{{asset('images/portfolio/gallery-1.jpg')}}" itemprop="contentUrl" data-size="1200x1200">
-                    <img src="{{asset('images/portfolio/gallery-2.jpg')}}" itemprop="thumb" alt="Image description" />
+                    <img src="{{asset('images/portfolio/gallery-1.jpg')}}" itemprop="thumb" alt="Image description" />
                 </a>
                 <figcaption itemprop="caption description">Image caption  1</figcaption>
             </figure>
@@ -39,8 +39,8 @@
 
             <!-- Grid Item-->
             <figure class="grid-item col-md-4 col-sm-4 col-xs-12">
-                <a href="{{asset('images/portfolio/gallery-1.jpg')}}" itemprop="contentUrl" data-size="1200x1200">
-                    <img src="{{asset('images/portfolio/gallery-2.jpg')}}" itemprop="thumb" alt="Image description" />
+                <a href="{{asset('images/portfolio/gallery-3.jpg')}}" itemprop="contentUrl" data-size="1200x1200">
+                    <img src="{{asset('images/portfolio/gallery-3.jpg')}}" itemprop="thumb" alt="Image description" />
                 </a>
                 <figcaption itemprop="caption description">Image caption 3</figcaption>
             </figure>
@@ -48,8 +48,8 @@
 
             <!-- Grid Item-->
             <figure class="grid-item col-md-4 col-sm-4 col-xs-12">
-                <a href="{{asset('images/portfolio/gallery-2.jpg')}}" itemprop="contentUrl" data-size="1200x750">
-                    <img src="{{asset('images/portfolio/gallery-2.jpg')}}" itemprop="thumb" alt="Image description" />
+                <a href="{{asset('images/portfolio/gallery-4.jpg')}}" itemprop="contentUrl" data-size="1200x750">
+                    <img src="{{asset('images/portfolio/gallery-4.jpg')}}" itemprop="thumb" alt="Image description" />
                 </a>
                 <figcaption itemprop="caption description">Image caption 4</figcaption>
             </figure>
@@ -57,8 +57,8 @@
 
             <!-- Grid Item-->
             <figure class="grid-item col-md-4 col-sm-4 col-xs-12">
-                <a href="{{asset('images/portfolio/gallery-2.jpg')}}" itemprop="contentUrl" data-size="1200x750">
-                    <img src="{{asset('images/portfolio/gallery-2.jpg')}}" itemprop="thumb" alt="Image description" />
+                <a href="{{asset('images/portfolio/gallery-7.jpg')}}" itemprop="contentUrl" data-size="1200x750">
+                    <img src="{{asset('images/portfolio/gallery-7.jpg')}}" itemprop="thumb" alt="Image description" />
                 </a>
                 <figcaption itemprop="caption description">Image caption 4</figcaption>
             </figure>
@@ -66,8 +66,8 @@
 
             <!-- Grid Item-->
             <figure class="grid-item col-md-4 col-sm-4 col-xs-12">
-                <a href="{{asset('images/portfolio/gallery-1.jpg')}}" itemprop="contentUrl" data-size="1200x750">
-                    <img src="{{asset('images/portfolio/gallery-1.jpg')}}" itemprop="thumb" alt="Image description" />
+                <a href="{{asset('images/portfolio/gallery-5.jpg')}}" itemprop="contentUrl" data-size="1200x750">
+                    <img src="{{asset('images/portfolio/gallery-5.jpg')}}" itemprop="thumb" alt="Image description" />
                 </a>
                 <figcaption itemprop="caption description">Image caption 5</figcaption>
             </figure>
@@ -75,8 +75,8 @@
 
             <!-- Grid Item-->
             <figure class="grid-item col-md-4 col-sm-4 col-xs-12">
-                <a href="{{asset('images/portfolio/gallery-2.jpg')}}" itemprop="contentUrl" data-size="1200x750">
-                    <img src="{{asset('images/portfolio/gallery-2.jpg')}}" itemprop="thumb" alt="Image description" />
+                <a href="{{asset('images/portfolio/gallery-6.jpg')}}" itemprop="contentUrl" data-size="1200x750">
+                    <img src="{{asset('images/portfolio/gallery-6.jpg')}}" itemprop="thumb" alt="Image description" />
                 </a>
                 <figcaption itemprop="caption description">Image caption 6</figcaption>
             </figure>

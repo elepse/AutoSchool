@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Plan;
 use App\Instructor;
 use Illuminate\Support\Facades\Auth;
-use function PHPSTORM_META\type;
+
 
 
 class SupportController extends Controller
@@ -50,7 +50,6 @@ class SupportController extends Controller
 
     public function searchRequests(Request $request)
     {
-     $mail = $request->get('mail', null);
      $typeClass = $request->get('typeClass', null);
      $instructor = $request->get('instructor', null);
      $client = $request->get('client', null);
@@ -59,9 +58,6 @@ class SupportController extends Controller
      $query = ClassPracitce::query()->join('users','users.id', '=','clases_Practice.id_user')
      ->join('instructors','instructors.id_instructor','=', 'clases_Practice.id_instructor');
 
-     if (!is_null($mail)){
-         $query = $query->where('email','like',"%$mail%");
-     }
         if (!is_null($typeClass)){
             $query = $query->where('type_class','=',"$typeClass");
         }
@@ -74,7 +70,14 @@ class SupportController extends Controller
         if (!is_null($typeKP)){
             $query = $query->where('type_KP', '=', "$typeKP");
         }
-        $query = $query->orderBy('clases_Practice.status','desc');
+        $query = $query->orderBy('clases_Practice.status','asc');
         return(['status'=>true, 'requests' => $query->get()]);
+    }
+    public function changeStatusRequest(Request $request){
+        $id = $request->get('id', null);
+        $status = $request->get('status', null);
+
+         $update = ClassPracitce::find($id)->update(['status' => $status]);
+        return (['status' => $update]);
     }
 }

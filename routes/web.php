@@ -58,6 +58,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'lk'], function () {
     Route::get('requests', 'LkController@requests')->name('requests');
     //поиск заявок
     Route::get('searchRequests', 'SupportController@searchRequests')->name('searchRequests');
+
+    Route::post('changeStatusRequest','SupportController@changeStatusRequest')->name('changeStatusRequest');
 });
 
 Auth::routes();

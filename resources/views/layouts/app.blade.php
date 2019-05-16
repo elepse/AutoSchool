@@ -37,7 +37,7 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
-                @if(Auth::check())
+                @if(Auth::check() && Auth::user()->role !== 4)
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a href="{{route('adminSchedule')}}" class="nav-link">Рассписание</a>

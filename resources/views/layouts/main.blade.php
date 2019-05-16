@@ -61,9 +61,6 @@
                 <a href="{{route('mainPage')}}">Главная</a>
             </li>
             <li class="mobile-menu-item">
-                <a href="{{route('news')}}">Новости</a>
-            </li>
-            <li class="mobile-menu-item">
                 <a href="{{route('gallery')}}">Галерея</a>
             </li>
             <li class="mobile-menu-item">
@@ -110,7 +107,7 @@
         <div class="main-menu">
             <div id="logo">
                 <a href="index-1.html">
-                    <img src="assets/images/logo.png" alt="alex-zane-logo">
+                    <img src="{{asset('images/logo.png')}}" alt="alex-zane-logo">
                 </a>
             </div>
             <!-- Menu -->
@@ -118,9 +115,6 @@
                 <ul class="hidden-xs">
                     <li>
                         <a class="menu-main" href="{{route('mainPage')}}">Главная</a>
-                    </li>
-                    <li>
-                        <a class="menu-news" href="{{route('news')}}">Новости</a>
                     </li>
                     <li>
                         <a class="menu-gallery" href="{{route('gallery')}}">Галерея</a>

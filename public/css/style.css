@@ -153,6 +153,7 @@ blockquote {
     -webkit-transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
             transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
 }
+
 .btn::before {
     border: .2rem solid #ef4138;
     opacity: 0;
@@ -523,16 +524,16 @@ nav ul ul ul li {
 }
 /*Images home page version 1*/
 #section1 {
-    background-image: url(../images/home/home.jpg);
+    background-image: url(../images/home/home1.jpg);
 }
 #section2 {
-    background-image: url(../images/home/home.jpg);
+    background-image: url(../images/home/home2.jpg);
 }
 #section3 {
-    background-image: url(../images/home/home.jpg);
+    background-image: url(../images/home/home3.jpg);
 }
 #section4 {
-    background-image: url(../images/home/home.jpg);
+    background-image: url(../images/home/home4.jpg);
 }
 
 /*Images home page version 2*/
